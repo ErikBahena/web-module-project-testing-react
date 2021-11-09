@@ -44,7 +44,9 @@ test("renders same number of options seasons are passed in", () => {
 test("handleSelect is called when an season is selected", () => {
   const handleSelect = jest.fn();
 
-  render(<Show show={testShow} selectedSeason="none" />);
+  render(
+    <Show show={testShow} selectedSeason="none" handleSelect={handleSelect} />
+  );
 
   const dropDown = screen.queryByTestId("select-season");
 
@@ -53,6 +55,8 @@ test("handleSelect is called when an season is selected", () => {
   userEvent.selectOptions(dropDown, [options[0]]);
 
   expect(options[0].selected).toBe(true);
+
+  expect(handleSelect).toHaveBeenCalled();
 });
 
 test("component renders when no seasons are selected and when rerenders with a season passed in", () => {

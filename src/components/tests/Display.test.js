@@ -1,5 +1,5 @@
 import React from "react";
-import { screen, render } from "@testing-library/react";
+import { screen, render, waitFor } from "@testing-library/react";
 import Display from "../Display.js";
 import userEvent from "@testing-library/user-event";
 
@@ -61,11 +61,9 @@ test("optional function is being called on fetch button press", async () => {
   render(<Display displayFunc={displayFunc} />);
 
   const fetchButton = screen.queryByRole("button");
-
   userEvent.click(fetchButton);
 
-  //   Blocker
-  console.log(displayFunc.mock.calls);
+  await waitFor(() => expect(displayFunc).toHaveBeenCalledTimes(1));
 });
 ///Tasks:
 //1. Add in nessisary imports and values to establish the testing suite.
