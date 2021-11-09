@@ -53,8 +53,6 @@ test("handleSelect is called when an season is selected", () => {
   userEvent.selectOptions(dropDown, [options[0]]);
 
   expect(options[0].selected).toBe(true);
-
-  //   const blocker
 });
 
 test("component renders when no seasons are selected and when rerenders with a season passed in", () => {
