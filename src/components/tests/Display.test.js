@@ -1,17 +1,7 @@
+import React from "react";
+import { screen, render } from "@testing-library/react";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+test("Display Tests", () => {});
 
 ///Tasks:
 //1. Add in nessisary imports and values to establish the testing suite.

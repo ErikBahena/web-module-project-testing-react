@@ -1,26 +1,74 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
-import Show from './../Show';
+import Show from "./../Show";
 
 const testShow = {
-    //add in approprate test data structure here.
-}
+  //add in approprate test data structure here.
+  name: "Show Name",
+  summary: "Show Summary",
+  seasons: [
+    {
+      id: 1,
+      name: "Season 1",
+      episodes: [],
+    },
+    {
+      id: 2,
+      name: "Season 2",
+      episodes: [],
+    },
+  ],
+};
 
-test('renders testShow and no selected Season without errors', ()=>{
+test("renders testShow and no selected Season without errors", () => {
+  render(<Show show={testShow} selectedSeason="none" />);
 });
 
-test('renders Loading component when prop show is null', () => {
+test("renders Loading component when prop show is null", () => {
+  render(<Show show={null} selectedSeason="none" />);
+
+  const loadingComponent = screen.queryByTestId("loading-container");
+  expect(loadingComponent).toBeInTheDocument();
 });
 
-test('renders same number of options seasons are passed in', ()=>{
+test("renders same number of options seasons are passed in", () => {
+  render(<Show show={testShow} selectedSeason="none" />);
+
+  const seasonOptions = screen.queryAllByTestId("season-option");
+
+  expect(seasonOptions.length).toBe(2);
 });
 
-test('handleSelect is called when an season is selected', () => {
+test("handleSelect is called when an season is selected", () => {
+  const handleSelect = jest.fn();
+
+  render(<Show show={testShow} selectedSeason="none" />);
+
+  const dropDown = screen.queryByTestId("select-season");
+
+  const options = screen.queryAllByTestId("season-option");
+
+  userEvent.selectOptions(dropDown, [options[0]]);
+
+  expect(options[0].selected).toBe(true);
+
+  //   const blocker
 });
 
-test('component renders when no seasons are selected and when rerenders with a season passed in', () => {
+test("component renders when no seasons are selected and when rerenders with a season passed in", () => {
+  const { rerender } = render(<Show show={testShow} selectedSeason="none" />);
+
+  let episodesContainer = screen.queryByTestId("episodes-container");
+
+  expect(episodesContainer).not.toBeInTheDocument();
+
+  rerender(<Show show={testShow} selectedSeason={1} />);
+
+  episodesContainer = screen.queryByTestId("episodes-container");
+
+  expect(episodesContainer).toBeInTheDocument();
 });
 
 //Tasks:
